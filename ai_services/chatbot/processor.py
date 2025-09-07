@@ -35,9 +35,9 @@ async def process_user_message(user_input: str) -> dict:
 # --- Demo Section ---
 async def demo():
     test_messages = [
-        "Main peeke apne bachon ko marta hun",
+        "मनवा ठीक नइखे लागत।",
         "హలో! నేను మీతో మాట్లాడాలని అనుకుంటున్నాను.",
-        "lonely",  # empty input
+        "মনে হয় কষ্ট হচ্ছে।",  # empty input
         "happy"
     ]
 
