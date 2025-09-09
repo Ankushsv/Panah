@@ -16,10 +16,11 @@ interface User {
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error?: string }>;
-  signUp: (email: string, password: string, name: string) => Promise<{ error?: string }>;
+  signIn: (email: string, password: string) => Promise<{ error?: string; user?: User }>;
+  signUp: (email: string, password: string, name: string) => Promise<{ error?: string; user?: User }>;
   signOut: () => Promise<void>;
   updateUserProfile: (updates: Partial<User>) => Promise<void>;
+  isAuthenticated: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -93,7 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             id: authUser.id,
             email: authUser.email || '',
             name: authUser.user_metadata?.name || 'User',
-            role: 'user',
+            role: 'user', // Default role
             level: 1,
             badges: ['Welcome'],
             joinedDate: new Date()
@@ -107,7 +108,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (email: string, password: string): Promise<{ error?: string; user?: User }> => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -118,13 +119,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { error: error.message };
       }
 
-      return {};
+      // Load user profile after successful sign in
+      if (data.user) {
+        await loadUserProfile(data.user.id);
+        // Wait for user state to update
+        const currentUser = await new Promise<User | null>((resolve) => {
+          setTimeout(() => resolve(user), 0);
+        });
+        if (currentUser) {
+          return { user: currentUser };
+        }
+      }
+      const signInResult = await signIn(email, password);
+      return signInResult;
     } catch (error) {
       return { error: 'An unexpected error occurred during sign in' };
     }
   };
 
-  const signUp = async (email: string, password: string, name: string) => {
+  const signUp = async (email: string, password: string, name: string): Promise<{ error?: string; user?: User }> => {
     try {
       // Call server endpoint for signup
       const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-ad91a532/auth/signup`, {
@@ -147,7 +160,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       // After successful signup, sign in the user
-      return await signIn(email, password);
+      const signInResult = await signIn(email, password);
+      if (signInResult.user) {
+        return { user: signInResult.user };
+      } else if (signInResult.error) {
+        return { error: signInResult.error };
+      }
+      return {};
     } catch (error) {
       return { error: 'An unexpected error occurred during sign up' };
     }
@@ -189,7 +208,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signIn,
     signUp,
     signOut,
-    updateUserProfile
+    updateUserProfile,
+    isAuthenticated: !!user
   };
 
   return (

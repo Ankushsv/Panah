@@ -4,19 +4,26 @@ import { AuthProvider, useAuth } from '@/components/AuthProvider';
 import { AuthPage } from '@/components/AuthPage';
 import { Navigation } from '@/app/(dashboard)/(users)/components/Navigation';
 import { Dashboard } from '@/app/(dashboard)/(users)/components/Dashboard';
-import { Chatbox } from '@/app/(dashboard)/(users)/components/Chatbox';
+import Chatbox from '@/app/(dashboard)/(users)/components/Chatbox';
 import { Booking } from '@/app/(dashboard)/(users)/components/Booking';
 import { Forum } from '@/app/(dashboard)/(users)/components/Forum';
 import { Videos } from '@/app/(dashboard)/(users)/components/Videos';
 import { Journal } from '@/app/(dashboard)/(users)/components/Journal';
 import { MentalHealthEvaluation } from '@/app/(dashboard)/(users)/components/MentalHealthEvaluation';
 import { Resources } from '@/app/(dashboard)/(users)/components/Resources';
+import { useProtectedRoute } from '@/app/hooks/useProtectedRoute';
 
 function AppContent() {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
+  
+    const { isAuthorized, loading } = useProtectedRoute({ 
+    requiredRoles: ['user'] 
+  });
 
-  if (loading) {
+
+
+  if (loading || !isAuthorized) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
         <div className="text-center space-y-4">

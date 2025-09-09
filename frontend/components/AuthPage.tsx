@@ -5,15 +5,18 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Alert, AlertDescription } from './ui/alert';
 import { useAuth } from './AuthProvider';
-import { Heart, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { Heart, Mail, Lock, User, Eye, EyeOff, Shield } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [showAdminSignup, setShowAdminSignup] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
-    name: ''
+    name: '',
+    adminKey: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,6 +24,7 @@ export function AuthPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { signIn, signUp } = useAuth();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,14 +46,42 @@ export function AuthPage() {
           return;
         }
 
-        const result = await signUp(formData.email, formData.password, formData.name);
+        // Check admin key if admin signup is selected
+        if (showAdminSignup) {
+          const validAdminKeys = ['ADMIN_KEY_2024', 'SUPER_ADMIN_123']; // In production, store this securely
+          if (!formData.adminKey || !validAdminKeys.includes(formData.adminKey)) {
+            setError('Invalid admin registration key');
+            return;
+          }
+        }
+
+        const result = await signUp(
+          formData.email, 
+          formData.password, 
+          formData.name
+        );
+        
         if (result.error) {
           setError(result.error);
+        } else if (result.user) {
+          // Redirect based on user role after successful signup
+          if (result.user.role === 'admin') {
+            router.push('/admin');
+          } else {
+            router.push('/users');
+          }
         }
       } else {
         const result = await signIn(formData.email, formData.password);
         if (result.error) {
           setError(result.error);
+        } else if (result.user) {
+          // Redirect based on user role after successful signin
+          if (result.user.role === 'admin') {
+            router.push('/admin');
+          } else {
+            router.push('/users');
+          }
         }
       }
     } catch (err) {
@@ -62,6 +94,19 @@ export function AuthPage() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const resetForm = () => {
+    setIsSignUp(!isSignUp);
+    setShowAdminSignup(false);
+    setError('');
+    setFormData({
+      email: '',
+      password: '',
+      confirmPassword: '',
+      name: '',
+      adminKey: ''
+    });
   };
 
   return (
@@ -77,11 +122,11 @@ export function AuthPage() {
           </div>
           <div className="space-y-2">
             <h2 className="text-xl">
-              {isSignUp ? 'Create Your Account' : 'Welcome Back'}
+              {isSignUp ? (showAdminSignup ? 'Create Admin Account' : 'Create Your Account') : 'Welcome Back'}
             </h2>
             <p className="text-sm text-muted-foreground">
               {isSignUp 
-                ? 'Start your mental health journey with us' 
+                ? (showAdminSignup ? 'Register as an administrator' : 'Start your mental health journey with us')
                 : 'Continue your wellness journey'
               }
             </p>
@@ -92,7 +137,7 @@ export function AuthPage() {
         <Card className="shadow-lg border-0">
           <CardHeader className="space-y-1 pb-4">
             <CardTitle className="text-center">
-              {isSignUp ? 'Sign Up' : 'Sign In'}
+              {isSignUp ? (showAdminSignup ? 'Admin Sign Up' : 'Sign Up') : 'Sign In'}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -183,6 +228,28 @@ export function AuthPage() {
                 </div>
               )}
 
+              {isSignUp && showAdminSignup && (
+                <div className="space-y-2">
+                  <Label htmlFor="adminKey">Admin Registration Key</Label>
+                  <div className="relative">
+                    <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="adminKey"
+                      name="adminKey"
+                      type="text"
+                      placeholder="Enter admin key"
+                      value={formData.adminKey}
+                      onChange={handleInputChange}
+                      className="pl-10"
+                      required
+                    />
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Contact your system administrator for the registration key
+                  </p>
+                </div>
+              )}
+
               {error && (
                 <Alert className="border-red-200 bg-red-50">
                   <AlertDescription className="text-red-700">
@@ -199,37 +266,82 @@ export function AuthPage() {
                 {loading ? (
                   <div className="flex items-center space-x-2">
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>{isSignUp ? 'Creating Account...' : 'Signing In...'}</span>
+                    <span>
+                      {isSignUp 
+                        ? (showAdminSignup ? 'Creating Admin Account...' : 'Creating Account...') 
+                        : 'Signing In...'
+                      }
+                    </span>
                   </div>
                 ) : (
-                  isSignUp ? 'Create Account' : 'Sign In'
+                  isSignUp 
+                    ? (showAdminSignup ? 'Create Admin Account' : 'Create Account')
+                    : 'Sign In'
                 )}
               </Button>
             </form>
 
-            <div className="mt-6 text-center">
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  setIsSignUp(!isSignUp);
-                  setError('');
-                  setFormData({
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                    name: ''
-                  });
-                }}
-                className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
-              >
-                {isSignUp
-                  ? 'Already have an account? Sign in'
-                  : "Don't have an account? Sign up"
-                }
-              </Button>
+            <div className="mt-6 space-y-2">
+              {/* Admin Signup Toggle (only show during signup) */}
+              {isSignUp && (
+                <div className="text-center">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowAdminSignup(!showAdminSignup)}
+                    className="text-sm text-gray-600 hover:text-gray-700"
+                  >
+                    {showAdminSignup ? (
+                      <span className="flex items-center space-x-1">
+                        <User className="h-4 w-4" />
+                        <span>Sign up as regular user</span>
+                      </span>
+                    ) : (
+                      <span className="flex items-center space-x-1">
+                        <Shield className="h-4 w-4" />
+                        <span>Sign up as admin</span>
+                      </span>
+                    )}
+                  </Button>
+                </div>
+              )}
+              
+              {/* Sign In/Up Toggle */}
+              <div className="text-center">
+                <Button
+                  variant="ghost"
+                  onClick={resetForm}
+                  className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                >
+                  {isSignUp
+                    ? 'Already have an account? Sign in'
+                    : "Don't have an account? Sign up"
+                  }
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* Admin Key Info Card */}
+        {isSignUp && showAdminSignup && (
+          <Card className="border-orange-200 bg-orange-50">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2 mb-2">
+                <Shield className="h-4 w-4 text-orange-600" />
+                <h3 className="text-sm font-medium text-orange-800">Admin Registration</h3>
+              </div>
+              <p className="text-xs text-orange-700">
+                Admin accounts require a special registration key for security purposes. 
+                Contact your system administrator to obtain the key.
+              </p>
+              {/* For development purposes - remove in production */}
+              <div className="mt-2 p-2 bg-orange-100 rounded text-xs text-orange-800">
+                <strong>Dev Mode:</strong> Try "ADMIN_KEY_2024" or "SUPER_ADMIN_123"
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Features Preview */}
         <Card className="border-purple-200 bg-purple-50">
