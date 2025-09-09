@@ -17,7 +17,7 @@ export function useProtectedRoute(options: UseProtectedRouteOptions = {}) {
 
   const { 
     requiredRoles = [], 
-    redirectTo = '/auth' 
+    redirectTo = '/signin' 
   } = options;
 
   useEffect(() => {

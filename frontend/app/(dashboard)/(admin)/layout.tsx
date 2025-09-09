@@ -14,6 +14,7 @@ export default function RootLayout({
   return (
     <body className="bg-white text-gray-900">
       <main className="container mx-auto px-4 py-8">
+        
         {children}
       </main>
     </body>
