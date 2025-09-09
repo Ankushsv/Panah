@@ -17,7 +17,7 @@ async def process_user_message(user_input: str) -> dict:
     and returns both cleaned text and LLM response.
     """
     clean_text = preprocessor.preprocess(user_input, return_tokens=False)
-
+    
     if not clean_text or not clean_text.strip():
         return {"clean_text": "", "response": "Please enter a valid message."}
 
