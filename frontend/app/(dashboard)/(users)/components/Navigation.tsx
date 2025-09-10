@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import { Heart, MessageCircle, Users, Video, BookOpen, ClipboardList, Library, User, LogOut, Menu, X, Calendar } from 'lucide-react';
+import Link from 'next/link';
+import { Heart, MessageCircle, Users, Video, BookOpen, ClipboardList, Library, User, LogOut, Menu, X, Calendar} from 'lucide-react';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback } from './ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
@@ -39,12 +40,14 @@ export function Navigation({ activeTab, setActiveTab }: NavigationProps) {
       <div className="container mx-auto px-2 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="bg-purple-600 rounded-lg p-2">
-              <Heart className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-            </div>
-            <span className="text-lg sm:text-xl text-purple-600 font-semibold">Panah</span>
+          <Link href="/">
+            <div className="flex items-center space-x-2">
+              <div className="bg-purple-600 rounded-lg p-2">
+                <Heart className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+              </div>
+              <span className="text-lg sm:text-xl text-purple-600 font-semibold">Panah</span>
           </div>
+          </Link>
           
           {/* Desktop Navigation */}
           <div className="hidden lg:flex space-x-1 xl:space-x-4">

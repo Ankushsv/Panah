@@ -14,7 +14,9 @@ const PanahLandingPage = () => {
               <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
                 <Heart className="w-5 h-5 text-white" />
               </div>
-              <span className="text-[30px] font-bold  text-purple-700">PANAH</span>
+              <Link href="/">
+                <span className="text-[30px] font-bold  text-purple-700">PANAH</span>
+              </Link>
             </div>
             
             <nav className="hidden md:flex space-x-8">
@@ -28,10 +30,13 @@ const PanahLandingPage = () => {
               <Link href="/signin">
                 <button className="text-gray-600 hover:text-purple-600 transition-colors">Sign In</button>
               </Link>
-              <Link href="/signup">
+              <Link href="/signin">
                 <button className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-2 rounded-full hover:from-purple-600 hover:to-purple-700 transition-all transform hover:scale-105">
                   Get Started
                 </button>
+              </Link>
+              <Link href="/admin">
+                <button className="text-gray-600 hover:text-purple-600 transition-colors">For Institutions</button>
               </Link>
             </div>
           </div>
@@ -57,15 +62,8 @@ const PanahLandingPage = () => {
               For Institutions
             </button>
           </div>
-          
-          <div className="flex justify-center space-x-8">
-            <button className="flex items-center space-x-2 text-gray-600 hover:text-purple-600 transition-colors">
-              <span>Sign In</span>
-            </button>
-            <button className="flex items-center space-x-2 text-gray-600 hover:text-purple-600 transition-colors">
-              <Users className="w-4 h-4" />
-              <span>Sign Up</span>
-            </button>
+          <div className="text-sm text-gray-500">
+            Trusted by over <span className="font-semibold text-purple-600">5+</span> institutions and endorsed by mental health experts.
           </div>
         </div>
       </section>

@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { AuthProvider } from '@/components/AuthProvider';
+import { AuthProvider, useAuth } from '@/components/AuthProvider';
 import { useProtectedRoute } from '@/app/hooks/useProtectedRoute';
 import { AuthPage } from '@/components/AuthPage';
 import { AdminNavbar } from '@/app/(dashboard)/(admin)/components/AdminNavbar';
@@ -29,7 +29,7 @@ import { projectId, publicAnonKey } from '@/utils/supabase/info';
 
 function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
-  const { user } = useProtectedRoute();
+  const { user } = useAuth();
 
   // Record login when user accesses dashboard
   useEffect(() => {
@@ -37,7 +37,7 @@ function AdminDashboard() {
       const recordLogin = async () => {
         try {
           const { makeAuthenticatedRequest } = await import('@/utils/api');
-          await makeAuthenticatedRequest('/admin/login', { method: 'POST' });
+          await makeAuthenticatedRequest('/signin', { method: 'POST' });
         } catch (err) {
           console.error('Failed to record login:', err);
         }
@@ -45,7 +45,27 @@ function AdminDashboard() {
       recordLogin();
     }
   }, [user]);
+  
+   const { isAuthorized, loading } = useProtectedRoute({ 
+    requiredRoles: ['user'] 
+  });
 
+
+
+  if (loading || !isAuthorized) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-purple-600">Loading your mental health companion...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <AuthPage />;
+  }
   const renderContent = () => {
     switch (activeTab) {
       case 'overview':

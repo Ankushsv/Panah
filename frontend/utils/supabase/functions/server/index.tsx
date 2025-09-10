@@ -50,7 +50,7 @@ app.post("/make-server-c67e10e0/register", async (c) => {
       password,
       user_metadata: { 
         name,
-        role 
+        role : role || 'user',
       },
       // Automatically confirm the user's email since an email server hasn't been configured.
       email_confirm: true

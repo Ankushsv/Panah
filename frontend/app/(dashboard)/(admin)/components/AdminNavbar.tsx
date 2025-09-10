@@ -4,7 +4,7 @@ import { Input } from './ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { Badge } from './ui/badge';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '@/components/AuthProvider';
 
 export function AdminNavbar() {
   const { user, signOut } = useAuth();
@@ -72,8 +72,8 @@ export function AdminNavbar() {
               <Avatar className="h-10 w-10">
                 <AvatarImage src="/placeholder-admin.jpg" alt="Admin" />
                 <AvatarFallback className="bg-purple-600 text-white">
-                  {user?.user_metadata?.name 
-                    ? user.user_metadata.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+                  {user?.name
+                    ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
                     : 'AD'
                   }
                 </AvatarFallback>
@@ -83,7 +83,7 @@ export function AdminNavbar() {
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <div className="flex flex-col space-y-1 p-2">
               <p className="text-sm font-medium leading-none">
-                {user?.user_metadata?.name || 'Admin User'}
+                {user?.name || 'Admin User'}
               </p>
               <p className="text-xs leading-none text-muted-foreground">
                 {user?.email || 'admin@panah.edu'}

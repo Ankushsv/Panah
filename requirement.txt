@@ -1,148 +1,147 @@
 # packages in environment at /opt/anaconda3/envs/venv:
 #
-# Name                     Version          Build               Channel
-annotated-types            0.7.0            pypi_0              pypi
-anyio                      4.10.0           pypi_0              pypi
-appnope                    0.1.4            pyhd8ed1ab_1        conda-forge
-asttokens                  3.0.0            pyhd8ed1ab_1        conda-forge
-blas                       1.0              openblas
-blis                       1.3.0            pypi_0              pypi
-bottleneck                 1.4.2            py313ha35b7ea_0
-bzip2                      1.0.8            h80987f9_6
-ca-certificates            2025.8.3         hbd8a1cb_0          conda-forge
-catalogue                  2.0.10           pypi_0              pypi
-certifi                    2025.8.3         pypi_0              pypi
-charset-normalizer         3.4.3            pypi_0              pypi
-click                      8.2.1            pypi_0              pypi
-cloudpathlib               0.22.0           pypi_0              pypi
-comm                       0.2.3            pyhe01879c_0        conda-forge
-confection                 0.1.5            pypi_0              pypi
-contourpy                  1.3.3            pypi_0              pypi
-cycler                     0.12.1           pypi_0              pypi
-cymem                      2.0.11           pypi_0              pypi
-debugpy                    1.8.16           py313hab38a8b_0     conda-forge
-decorator                  5.2.1            pyhd8ed1ab_0        conda-forge
-distro                     1.9.0            pypi_0              pypi
-dotenv                     0.9.9            pypi_0              pypi
-emoji                      2.14.1           pypi_0              pypi
-et-xmlfile                 2.0.0            pypi_0              pypi
-exceptiongroup             1.3.0            pyhd8ed1ab_0        conda-forge
-executing                  2.2.0            pyhd8ed1ab_0        conda-forge
-expat                      2.7.1            h313beb8_0
-fastapi                    0.116.1          pypi_0              pypi
-fonttools                  4.59.1           pypi_0              pypi
-googletrans                4.0.2            pypi_0              pypi
-h11                        0.16.0           pypi_0              pypi
-h2                         4.3.0            pypi_0              pypi
-hpack                      4.1.0            pypi_0              pypi
-httpcore                   1.0.9            pypi_0              pypi
-httpx                      0.28.1           pypi_0              pypi
-hyperframe                 6.1.0            pypi_0              pypi
-idna                       3.10             pypi_0              pypi
-importlib-metadata         8.7.0            pyhe01879c_1        conda-forge
-ipykernel                  6.30.1           pyh92f572d_0        conda-forge
-ipython                    9.4.0            pyhfa0c392_0        conda-forge
-ipython_pygments_lexers    1.1.1            pyhd8ed1ab_0        conda-forge
-jedi                       0.19.2           pyhd8ed1ab_1        conda-forge
-jinja2                     3.1.6            pypi_0              pypi
-jiter                      0.10.0           pypi_0              pypi
-joblib                     1.5.2            pypi_0              pypi
-jupyter_client             8.6.3            pyhd8ed1ab_1        conda-forge
-jupyter_core               5.8.1            pyh31011fe_0        conda-forge
-kagglehub                  0.3.13           pypi_0              pypi
-kiwisolver                 1.4.9            pypi_0              pypi
-krb5                       1.21.3           h237132a_0          conda-forge
-langcodes                  3.5.0            pypi_0              pypi
-language-data              1.3.0            pypi_0              pypi
-libcxx                     19.1.7           hb09ecce_3
-libedit                    3.1.20250104     pl5321hafb1f1b_0    conda-forge
-libffi                     3.4.4            hca03da5_1
-libgfortran                5.0.0            11_3_0_hca03da5_28
-libgfortran5               11.3.0           h009349e_28
-libmpdec                   4.0.0            h80987f9_0
-libopenblas                0.3.29           hea593b9_0
-libsodium                  1.0.20           h99b78c6_0          conda-forge
-llvm-openmp                19.1.7           h3b2fb71_2
-marisa-trie                1.3.1            pypi_0              pypi
-markdown-it-py             4.0.0            pypi_0              pypi
-markupsafe                 3.0.2            pypi_0              pypi
-matplotlib                 3.10.5           pypi_0              pypi
-matplotlib-inline          0.1.7            pyhd8ed1ab_1        conda-forge
-mdurl                      0.1.2            pypi_0              pypi
-murmurhash                 1.0.13           pypi_0              pypi
-ncurses                    6.5              hee39554_0
-nest-asyncio               1.6.0            pyhd8ed1ab_1        conda-forge
-nltk                       3.9.1            pypi_0              pypi
-numexpr                    2.11.0           py313hf08b1b5_0
-numpy                      2.3.1            py313h50dd0cd_0
-numpy-base                 2.3.1            py313h2506b34_0
-openai                     1.106.1          pypi_0              pypi
-openpyxl                   3.1.5            pypi_0              pypi
-openssl                    3.5.2            he92f556_0          conda-forge
-packaging                  25.0             pyh29332c3_1        conda-forge
-pandas                     2.3.1            py313h17050e6_0
-parso                      0.8.4            pyhd8ed1ab_1        conda-forge
-pexpect                    4.9.0            pyhd8ed1ab_1        conda-forge
-pickleshare                0.7.5            pyhd8ed1ab_1004     conda-forge
-pillow                     11.3.0           pypi_0              pypi
-pip                        25.1             pyhc872135_2
-platformdirs               4.3.8            pyhe01879c_0        conda-forge
-preshed                    3.0.10           pypi_0              pypi
-prompt-toolkit             3.0.51           pyha770c72_0        conda-forge
-psutil                     7.0.0            py313h90d716c_0     conda-forge
-ptyprocess                 0.7.0            pyhd8ed1ab_1        conda-forge
-pure_eval                  0.2.3            pyhd8ed1ab_1        conda-forge
-pydantic                   2.11.7           pypi_0              pypi
-pydantic-core              2.33.2           pypi_0              pypi
-pygments                   2.19.2           pyhd8ed1ab_0        conda-forge
-pyparsing                  3.2.3            pypi_0              pypi
-python                     3.13.5           h2eb94d5_100_cp313
-python-dateutil            2.9.0.post0      pyhe01879c_2        conda-forge
-python-dotenv              1.1.1            pypi_0              pypi
-python-tzdata              2025.2           pyhd3eb1b0_0
-python_abi                 3.13             0_cp313
-pytz                       2025.2           py313hca03da5_0
-pyyaml                     6.0.2            pypi_0              pypi
-pyzmq                      27.0.1           py313h330de61_0     conda-forge
-readline                   8.3              h0b18652_0
-regex                      2025.9.1         pypi_0              pypi
-requests                   2.32.5           pypi_0              pypi
-rich                       14.1.0           pypi_0              pypi
-scikit-learn               1.7.1            pypi_0              pypi
-scipy                      1.16.1           pypi_0              pypi
-seaborn                    0.13.2           pypi_0              pypi
-setuptools                 72.1.0           py313hca03da5_0
-shellingham                1.5.4            pypi_0              pypi
-six                        1.17.0           pyhe01879c_1        conda-forge
-smart-open                 7.3.0.post1      pypi_0              pypi
-sniffio                    1.3.1            pypi_0              pypi
-spacy                      3.8.7            pypi_0              pypi
-spacy-legacy               3.0.12           pypi_0              pypi
-spacy-loggers              1.0.5            pypi_0              pypi
-sqlite                     3.50.2           h79febb2_1
-srsly                      2.5.1            pypi_0              pypi
-stack_data                 0.6.3            pyhd8ed1ab_1        conda-forge
-starlette                  0.47.3           pypi_0              pypi
-textblob                   0.19.0           pypi_0              pypi
-thinc                      8.3.6            pypi_0              pypi
-threadpoolctl              3.6.0            pypi_0              pypi
-tk                         8.6.15           hcd8a7d5_0
-tornado                    6.5.2            py313hcdf3177_0     conda-forge
-tqdm                       4.67.1           pypi_0              pypi
-traitlets                  5.14.3           pyhd8ed1ab_1        conda-forge
-typer                      0.17.3           pypi_0              pypi
-typing-inspection          0.4.1            pypi_0              pypi
-typing_extensions          4.14.1           pyhe01879c_0        conda-forge
-tzdata                     2025b            h04d1e81_0
-ucimlrepo                  0.0.7            pypi_0              pypi
-urllib3                    2.5.0            pypi_0              pypi
-uvicorn                    0.35.0           pypi_0              pypi
-wasabi                     1.1.3            pypi_0              pypi
-wcwidth                    0.2.13           pyhd8ed1ab_1        conda-forge
-weasel                     0.4.1            pypi_0              pypi
-wheel                      0.45.1           py313hca03da5_0
-wrapt                      1.17.3           pypi_0              pypi
-xz                         5.6.4            h80987f9_1
-zeromq                     4.3.5            hc1bb282_7          conda-forge
-zipp                       3.23.0           pyhd8ed1ab_0        conda-forge
-zlib                       1.2.13           h18a0788_1
+annotated-types==0.7.0
+anyio==4.10.0
+appnope==0.1.4
+asttokens==3.0.0
+blas==1.0
+blis==1.3.0
+bottleneck==1.4.2
+bzip2==1.0.8
+ca-certificates==2025.8.3
+catalogue==2.0.10
+certifi==2025.8.3
+charset-normalizer==3.4.3
+click==8.2.1
+cloudpathlib==0.22.0
+comm==0.2.3
+confection==0.1.5
+contourpy==1.3.3
+cycler==0.12.1
+cymem==2.0.11
+debugpy==1.8.16
+decorator==5.2.1
+distro==1.9.0
+dotenv==0.9.9
+emoji==2.14.1
+et-xmlfile==2.0.0
+exceptiongroup==1.3.0
+executing==2.2.0
+expat==2.7.1
+fastapi==0.116.1
+fonttools==4.59.1
+googletrans==4.0.2
+h11==0.16.0
+h2==4.3.0
+hpack==4.1.0
+httpcore==1.0.9
+httpx==0.28.1
+hyperframe==6.1.0
+idna==3.10
+importlib-metadata==8.7.0
+ipykernel==6.30.1
+ipython==9.4.0
+ipython_pygments_lexers==1.1.1
+jedi==0.19.2
+jinja2==3.1.6
+jiter==0.10.0
+joblib==1.5.2
+jupyter_client==8.6.3
+jupyter_core==5.8.1
+kagglehub==0.3.13
+kiwisolver==1.4.9
+krb5==1.21.3
+langcodes==3.5.0
+language-data==1.3.0
+libcxx==19.1.7
+libedit==3.1.20250104
+libffi==3.4.4
+libgfortran==5.0.0
+libgfortran5==11.3.0
+libmpdec==4.0.0
+libopenblas==0.3.29
+libsodium==1.0.20
+llvm-openmp==19.1.7
+marisa-trie==1.3.1
+markdown-it-py==4.0.0
+markupsafe==3.0.2
+matplotlib==3.10.5
+matplotlib-inline==0.1.7
+mdurl==0.1.2
+murmurhash==1.0.13
+ncurses==6.5
+nest-asyncio==1.6.0
+nltk==3.9.1
+numexpr==2.11.0
+numpy==2.3.1
+numpy-base==2.3.1
+openai==1.106.1
+openpyxl==3.1.5
+openssl==3.5.2
+packaging==25.0
+pandas==2.3.1
+parso==0.8.4
+pexpect==4.9.0
+pickleshare==0.7.5
+pillow==11.3.0
+pip==25.1
+platformdirs==4.3.8
+preshed==3.0.10
+prompt-toolkit==3.0.51
+psutil==7.0.0
+ptyprocess==0.7.0
+pure_eval==0.2.3
+pydantic==2.11.7
+pydantic-core==2.33.2
+pygments==2.19.2
+pyparsing==3.2.3
+python==3.13.5
+python-dateutil==2.9.0.post0
+python-dotenv==1.1.1
+python-tzdata==2025.2
+python_abi==3.13
+pytz==2025.2
+pyyaml==6.0.2
+pyzmq==27.0.1
+readline==8.3
+regex==2025.9.1
+requests==2.32.5
+rich==14.1.0
+scikit-learn==1.7.1
+scipy==1.16.1
+seaborn==0.13.2
+setuptools==72.1.0
+shellingham==1.5.4
+six==1.17.0
+smart-open==7.3.0.post1
+sniffio==1.3.1
+spacy==3.8.7
+spacy-legacy==3.0.12
+spacy-loggers==1.0.5
+sqlite==3.50.2
+srsly==2.5.1
+stack_data==0.6.3
+starlette==0.47.3
+textblob==0.19.0
+thinc==8.3.6
+threadpoolctl==3.6.0
+tk==8.6.15
+tornado==6.5.2
+tqdm==4.67.1
+traitlets==5.14.3
+typer==0.17.3
+typing-inspection==0.4.1
+typing_extensions==4.14.1
+tzdata==2025b
+ucimlrepo==0.0.7
+urllib3==2.5.0
+uvicorn==0.35.0
+wasabi==1.1.3
+wcwidth==0.2.13
+weasel==0.4.1
+wheel==0.45.1
+wrapt==1.17.3
+xz==5.6.4
+zeromq==4.3.5
+zipp==3.23.0
+zlib==1.2.13
