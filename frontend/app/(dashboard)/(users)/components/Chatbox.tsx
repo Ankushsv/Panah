@@ -63,7 +63,7 @@ export default function Chatbox({ setActiveTab }: ChatboxProps = {}) {
 
   const testConnection = async () => {
     try {
-      const response = await fetch('http://localhost:8000/chat', {
+      const response = await fetch('http://localhost:5050/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export default function Chatbox({ setActiveTab }: ChatboxProps = {}) {
 
   const callBackendAPI = async (userMessage: string): Promise<string> => {
     try {
-      const response = await fetch('http://localhost:8000/chat', {
+      const response = await fetch('http://localhost:5050/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ export default function Chatbox({ setActiveTab }: ChatboxProps = {}) {
     } catch (error) {
       console.error('Error calling backend:', error);
       setConnectionStatus("offline");
-      return "I'm having trouble connecting to my backend service. Please check if the FastAPI server is running on port 8000, or try again later.";
+      return "I'm having trouble connecting to my backend service. Please check if the FastAPI server is running on port 5050, or try again later.";
     }
   };
 
@@ -192,7 +192,7 @@ export default function Chatbox({ setActiveTab }: ChatboxProps = {}) {
       console.error('Error sending message:', error);
       const errorResponse: Message = {
         id: (Date.now() + 1).toString(),
-        content: "I apologize, but I'm having technical difficulties right now. Please make sure the FastAPI server is running on http://localhost:8000, or try again in a moment.",
+        content: "I apologize, but I'm having technical difficulties right now. Please make sure the FastAPI server is running on http://localhost:5050, or try again in a moment.",
         sender: "bot",
         timestamp: new Date(),
       };
@@ -293,7 +293,7 @@ export default function Chatbox({ setActiveTab }: ChatboxProps = {}) {
             <div className="bg-yellow-50 border-b border-yellow-200 p-3">
               <div className="flex items-center gap-2 text-yellow-800 text-sm">
                 <AlertTriangle className="h-4 w-4" />
-                Backend connection failed. Make sure FastAPI server is running on http://localhost:8000
+                Backend connection failed. Make sure FastAPI server is running on http://localhost:5050
                 <button 
                   onClick={testConnection}
                   className="ml-auto text-xs h-6 px-2 border border-yellow-300 rounded hover:bg-yellow-100 transition-colors"
