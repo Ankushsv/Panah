@@ -1,11 +1,10 @@
 # processor.py
 import os
+import json
+import aiohttp
 from ai_services.utils.text_processor import TextPreprocessor
 from .safety import check_safety
-from openai import AsyncOpenAI
 from googletrans import Translator
-# Initialize OpenAI client
-client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Initialize text preprocessor
 preprocessor = TextPreprocessor()
@@ -13,9 +12,75 @@ preprocessor = TextPreprocessor()
 # Optional: maintain short conversation memory (last few messages)
 conversation_history = []
 
+# Ollama configuration
+OLLAMA_BASE_URL = "http://localhost:11434"
+OLLAMA_MODEL = "llama3.2:latest"  # You can change this to your preferred model
+
+class LocalLLMClient:
+    def __init__(self, base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL):
+        self.base_url = base_url
+        self.model = model
+    
+    async def chat_completion(self, messages, max_tokens=400, temperature=0.7):
+        """
+        Send chat completion request to local Ollama instance
+        """
+        # Convert messages to Ollama format
+        prompt = self._convert_messages_to_prompt(messages)
+        
+        payload = {
+            "model": self.model,
+            "prompt": prompt,
+            "stream": False,
+            "options": {
+                "temperature": temperature,
+                "num_predict": max_tokens,
+                "top_p": 0.9
+            }
+        }
+        
+        async with aiohttp.ClientSession() as session:
+            try:
+                async with session.post(
+                    f"{self.base_url}/api/generate",
+                    json=payload,
+                    timeout=aiohttp.ClientTimeout(total=60)
+                ) as response:
+                    if response.status == 200:
+                        result = await response.json()
+                        return result.get("response", "")
+                    else:
+                        error_text = await response.text()
+                        raise Exception(f"Ollama API error: {response.status} - {error_text}")
+            except aiohttp.ClientError as e:
+                raise Exception(f"Connection error to Ollama: {str(e)}")
+    
+    def _convert_messages_to_prompt(self, messages):
+        """
+        Convert OpenAI-style messages to a single prompt for Ollama
+        """
+        prompt_parts = []
+        
+        for message in messages:
+            role = message.get("role", "")
+            content = message.get("content", "")
+            
+            if role == "system":
+                prompt_parts.append(f"System: {content}\n")
+            elif role == "user":
+                prompt_parts.append(f"Human: {content}\n")
+            elif role == "assistant":
+                prompt_parts.append(f"Assistant: {content}\n")
+        
+        prompt_parts.append("Assistant: ")
+        return "".join(prompt_parts)
+
+# Initialize local LLM client
+llm_client = LocalLLMClient()
+
 async def get_llm_response(user_input: str) -> str:
     """
-    Sends the user input to OpenAI with conversation memory and context-gathering system prompt.
+    Sends the user input to local LLaMA with conversation memory and context-gathering system prompt.
     """
     try:
         system_prompt = f"""
@@ -90,7 +155,7 @@ In the last month, how often:
 7. Been able to control irritations in your life?  
 8. Felt you were on top of things?  
 9. Been angered because of things outside your control?  
-10. Felt difficulties were piling up so high that you couldn’t overcome them?  
+10. Felt difficulties were piling up so high that you couldn't overcome them?  
 
 (Response options: Never / Almost never / Sometimes / Fairly often / Very often)
 
@@ -140,16 +205,14 @@ Your job:
         messages.extend(conversation_history)
         messages.append({"role": "user", "content": user_input})
 
-        # Call LLM
-        completion = await client.chat.completions.create(
-            model="gpt-4o-mini",
+        # Call local LLM
+        response = await llm_client.chat_completion(
             messages=messages,
             max_tokens=400,
-            temperature=0.7,
-            top_p=0.9
+            temperature=0.7
         )
 
-        response = completion.choices[0].message.content.strip()
+        response = response.strip()
 
         # Update conversation memory (keep last 5 exchanges)
         conversation_history.append({"role": "user", "content": user_input})
@@ -160,7 +223,7 @@ Your job:
         return response
 
     except Exception as e:
-        return f"⚠️ Sorry, I had an issue reaching the AI service: {str(e)}"
+        return f"⚠️ Sorry, I had an issue reaching the local AI service: {str(e)}"
 
 
 async def process_user_message(user_input: str) -> str:
@@ -168,7 +231,8 @@ async def process_user_message(user_input: str) -> str:
     Full pipeline: preprocess, safety check, and LLM response with memory.
     """
     translator = Translator()
-    user_input = translator.translate(user_input, dest = 'en').text
+    user_input = translator.translate(user_input, dest='en').text
+    
     # Step 1: Preprocess input
     clean_text = preprocessor.preprocess(user_input)
     if not clean_text.strip():
@@ -184,11 +248,42 @@ async def process_user_message(user_input: str) -> str:
     return response
 
 
+# Health check function for the local LLM
+async def check_llm_health():
+    """
+    Check if Ollama is running and the model is available
+    """
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(f"{OLLAMA_BASE_URL}/api/tags") as response:
+                if response.status == 200:
+                    models = await response.json()
+                    model_names = [model["name"] for model in models.get("models", [])]
+                    if OLLAMA_MODEL in model_names:
+                        return True, f"✅ LLaMA model '{OLLAMA_MODEL}' is ready"
+                    else:
+                        return False, f"❌ Model '{OLLAMA_MODEL}' not found. Available models: {model_names}"
+                else:
+                    return False, f"❌ Ollama server responded with status {response.status}"
+    except Exception as e:
+        return False, f"❌ Cannot connect to Ollama: {str(e)}"
+
+
 # --- Optional Demo ---
 if __name__ == "__main__":
     import asyncio
 
     async def demo():
+        # First check if local LLM is available
+        health_ok, health_msg = await check_llm_health()
+        print(health_msg)
+        
+        if not health_ok:
+            print("\nPlease make sure Ollama is running and the model is installed.")
+            print("Install Ollama: https://ollama.ai")
+            print(f"Pull model: ollama pull {OLLAMA_MODEL}")
+            return
+
         examples = [
             "I feel very stressed and anxious lately.",
             "Sometimes I can't sleep and feel low.",

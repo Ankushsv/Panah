@@ -97,7 +97,7 @@ export default function Chatbox({ setActiveTab }: ChatboxProps = {}) {
       }
 
       const data = await response.json();
-      return data.response || "I'm sorry, I couldn't process your message right now. Please try again.";
+      return data.bot_response || "I'm sorry, I couldn't process your message right now. Please try again.";
     } catch (error) {
       console.error('Error calling backend:', error);
       setConnectionStatus("offline");
