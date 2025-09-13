@@ -97,6 +97,7 @@ Method:
 - Deduplicate: Avoid repeating questions the user already answered.
 - Avoid over-assessing: Stop probing once sufficient info is gathered.
 - Targeted follow-up: Ask focused clarification if responses are unclear.
+- when asked for coping strategies search for general coping strategies
 
 Early stop criteria:
 - Stop when you can give meaningful guidance or suggest coping strategies.

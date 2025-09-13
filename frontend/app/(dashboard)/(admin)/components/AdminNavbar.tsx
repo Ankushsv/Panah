@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { Badge } from './ui/badge';
 import { useAuth } from '@/components/AuthProvider';
+import Link from 'next/link';
 
 export function AdminNavbar() {
   const { user, signOut } = useAuth();
@@ -20,11 +21,13 @@ export function AdminNavbar() {
     <nav className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
       {/* Logo and Title */}
       <div className="flex items-center space-x-4">
+        <Link href="/">
         <div className="bg-gradient-to-r from-purple-600 to-purple-700 p-2 rounded-lg">
           <div className="w-6 h-6 bg-white rounded-sm flex items-center justify-center">
             <span className="text-purple-600 font-bold text-sm">P</span>
           </div>
         </div>
+        </Link>
         <div>
           <h1 className="text-xl font-semibold text-gray-900">Panah Admin</h1>
           <p className="text-sm text-gray-500">Mental Health Analytics Dashboard</p>
